@@ -1,6 +1,9 @@
 package com.example.agentdryrun.entity;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "users")
@@ -23,5 +26,9 @@ public class User {
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @Column(name = "create_time", updatable = false, nullable = false)
+    @CreationTimestamp
+    private LocalDate createTime;
 
 }
