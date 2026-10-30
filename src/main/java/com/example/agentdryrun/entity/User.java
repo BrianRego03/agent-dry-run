@@ -2,6 +2,7 @@ package com.example.agentdryrun.entity;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.stringtemplate.v4.ST;
 
 import java.time.LocalDate;
 
@@ -42,4 +43,39 @@ public class User {
         this.role = Role.USER;
     }
 
+    public String getName() {
+        return this.name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getEmail() {
+        return this.email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword(String password) {
+        return this.password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Role getRole() {
+        return this.role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public int getId() {
+        return this.id;
+    }
 }
