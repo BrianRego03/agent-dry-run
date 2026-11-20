@@ -4,6 +4,7 @@ package com.example.agentdryrun.controller;
 import com.example.agentdryrun.config.JwtConfig;
 import com.example.agentdryrun.dtos.CredentialsRequest;
 import com.example.agentdryrun.dtos.JwtResponse;
+import com.example.agentdryrun.dtos.UserDto;
 import com.example.agentdryrun.mappers.UserMapper;
 import com.example.agentdryrun.repository.UserRepository;
 import com.example.agentdryrun.service.JwtService;
@@ -16,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -75,6 +77,18 @@ public class AuthController {
         var user = userRepository.findById(userId).orElseThrow();
         var accessToken = jwtService.generateAccessToken(user);
         return ResponseEntity.ok(new JwtResponse(accessToken));
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<UserDto> fetchMe(){
+        var authentication = SecurityContextHolder.getContext().getAuthentication();
+        var userId = (Integer) authentication.getPrincipal();
+        var user = userService.getById(userId);
+        if(user==null){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        var userDto = userMapper.toDto(user);
+        return ResponseEntity.ok(userDto);
     }
 
     @ExceptionHandler(BadCredentialsException.class)
