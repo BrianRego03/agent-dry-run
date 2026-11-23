@@ -12,8 +12,8 @@ spring:
     model:
       chat:none
 
-  app:
-    jwt:
-      secret: ${JWT_SECRET}
-      accessTokenExpiration: 900
-      refreshTokenExpiration: 604800
+app:
+  jwt:
+    secret: ${JWT_SECRET}
+    accessTokenExpiration: 900
+    refreshTokenExpiration: 604800
