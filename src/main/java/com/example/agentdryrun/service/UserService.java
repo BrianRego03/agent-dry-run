@@ -4,9 +4,11 @@ import com.example.agentdryrun.entity.User;
 import com.example.agentdryrun.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class UserService {
     private final UserRepository userRepository;
 
