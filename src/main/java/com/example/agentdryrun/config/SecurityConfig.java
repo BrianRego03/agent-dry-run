@@ -64,6 +64,7 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.POST,"/auth/refresh").permitAll()
                                 .requestMatchers(HttpMethod.GET,"/test").permitAll()
                                 .requestMatchers(HttpMethod.GET,"/thyme").permitAll()
+                                .requestMatchers(HttpMethod.GET,"/external").permitAll()
                                 .anyRequest().authenticated())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling(c->{
