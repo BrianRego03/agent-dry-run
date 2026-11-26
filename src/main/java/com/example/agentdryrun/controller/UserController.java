@@ -1,19 +1,25 @@
 package com.example.agentdryrun.controller;
 
+import java.util.Map;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
+
 import com.example.agentdryrun.dtos.ChangePasswordRequest;
 import com.example.agentdryrun.dtos.RegisterUserRequest;
 import com.example.agentdryrun.entity.Role;
 import com.example.agentdryrun.mappers.UserMapper;
 import com.example.agentdryrun.repository.UserRepository;
 import com.example.agentdryrun.service.UserService;
-import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.UriComponentsBuilder;
 
-import java.util.Map;
+import jakarta.validation.Valid;
 
 @RestController
 public class UserController {
@@ -28,6 +34,11 @@ public class UserController {
         this.userMapper = userMapper;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+    }
+
+    @GetMapping("/test")
+    public String hello() {
+        return "Hello! Welcome to my Spring Boot application.";
     }
 
     @PostMapping("/users")
