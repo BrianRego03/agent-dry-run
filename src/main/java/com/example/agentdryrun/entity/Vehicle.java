@@ -40,11 +40,15 @@ public class Vehicle {
     }
 
     public Vehicle(String registrationNumber, String make, String model, String colour) {
+        this(registrationNumber, make, model, colour, Instant.now());
+    }
+
+    public Vehicle(String registrationNumber, String make, String model, String colour, Instant firstSeenAt) {
         this.registrationNumber = registrationNumber;
         this.make = make;
         this.model = model;
         this.colour = colour;
-        this.firstSeenAt = Instant.now();
+        this.firstSeenAt = firstSeenAt;
         this.offenceCount = 0;
     }
 
@@ -86,6 +90,10 @@ public class Vehicle {
 
     public Instant getFirstSeenAt() {
         return this.firstSeenAt;
+    }
+
+    public void setFirstSeenAt(Instant firstSeenAt) {
+        this.firstSeenAt = firstSeenAt;
     }
 
     public int getOffenceCount() {
