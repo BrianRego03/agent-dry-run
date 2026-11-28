@@ -6,6 +6,9 @@ import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
@@ -19,12 +22,13 @@ public class VehicleService {
     }
 
     @Transactional
-    public Vehicle registerVehicle(String registrationNumber, String make, String model, String colour) {
+    public Vehicle registerVehicle(String registrationNumber, String make, String model, String colour, String occurredAt) {
         String normalized = normalizeRegistrationNumber(registrationNumber);
         if (vehicleRepository.existsByRegistrationNumber(normalized)) {
             throw new IllegalArgumentException("Vehicle with registration number already exists: " + normalized);
         }
-        Vehicle vehicle = new Vehicle(normalized, make, model, colour);
+        Instant firstSeenAt = parseOccurredAt(occurredAt);
+        Vehicle vehicle = new Vehicle(normalized, make, model, colour, firstSeenAt);
         return vehicleRepository.save(vehicle);
     }
 
@@ -77,5 +81,16 @@ public class VehicleService {
             throw new IllegalArgumentException("Registration number must not be blank");
         }
         return registrationNumber.trim().replaceAll("\\s+", "").toUpperCase(Locale.ROOT);
+    }
+
+    private Instant parseOccurredAt(String occurredAt) {
+        if (occurredAt == null || occurredAt.isBlank()) {
+            throw new IllegalArgumentException("Occurred timestamp must not be blank");
+        }
+        try {
+            return OffsetDateTime.parse(occurredAt.trim()).toInstant();
+        } catch (DateTimeParseException ex) {
+            throw new IllegalArgumentException("Invalid ISO-8601 timestamp for occurredAt: " + occurredAt, ex);
+        }
     }
 }
