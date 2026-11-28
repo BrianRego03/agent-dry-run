@@ -3,6 +3,7 @@ package com.example.agentdryrun.controller;
 import com.example.agentdryrun.entity.Vehicle;
 import com.example.agentdryrun.service.VehicleService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,8 +20,11 @@ public class VehicleController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Vehicle> getVehicleById(@PathVariable Long id) {
-        return vehicleService.getById(id)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+        return ResponseEntity.ok(vehicleService.getById(id));
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<Void> handleVehicleNotFound(IllegalArgumentException ex) {
+        return ResponseEntity.notFound().build();
     }
 }
