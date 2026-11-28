@@ -32,8 +32,8 @@ public class VehicleService {
         return vehicleRepository.save(vehicle);
     }
 
-    public Optional<Vehicle> getById(Long vehicleId) {
-        return vehicleRepository.findById(vehicleId);
+    public Vehicle getById(Long vehicleId) {
+        return findVehicleOrThrow(vehicleId);
     }
 
     public Optional<Vehicle> getByRegistrationNumber(String registrationNumber) {
